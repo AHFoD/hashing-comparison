@@ -11,6 +11,10 @@ const userSchema = new mongoose.Schema({
     type: String,
     required: true, // Ensures that the password field is not empty
   },
+  md5Hash: {
+    type: String,
+    required: true, // Ensures that the password field is not empty
+  },
   age: String,
   gender: String,
   address: String,

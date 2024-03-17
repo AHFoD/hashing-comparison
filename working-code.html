@@ -54,21 +54,14 @@
       <div class="modal-content">
         <!-- Form fields for editing user data -->
         <form id="editUserForm">
-          <input type="text" id="editUserId" style="display: none" />
-          <!-- Add an input field to store userId -->
           <input type="text" id="editUsername" placeholder="Username" />
           <input type="email" id="editEmail" placeholder="Email" />
-          <input
-            type="text"
-            id="editPassword"
-            placeholder="Password"
-            disabled
-          />
+          <input type="text" id="editPassword" placeholder="Password" />
           <input type="number" id="editAge" placeholder="Age" />
           <input type="text" id="editGender" placeholder="Gender" />
           <input type="text" id="editAddress" placeholder="Address" />
           <input type="text" id="editPhoneNumber" placeholder="Phone Number" />
-          <input type="text" id="editMd5Hash" placeholder="MD5Hash" disabled />
+          <input type="text" id="editMd5Hash" placeholder="MD5Hash" />
           <button type="button" id="updateUserButton">Update</button>
           <button type="button" onclick="closeEditUserModal()">Cancel</button>
         </form>
@@ -94,21 +87,21 @@
           userTableBody.innerHTML = "";
           users.forEach((user) => {
             const row = `
-                        <tr>
-                            <td>${user.username}</td>
-                            <td>${user.email}</td>
-                            <td>${user.age}</td>
-                            <td>${user.gender}</td>
-                            <td>${user.address}</td>
-                            <td>${user.phoneNumber}</td>
-                            <td>${user.password}</td>
-                            <td>${user.md5Hash}</td>
-                            <td>
-                                <button onclick="editUser('${user._id}')">Edit</button>
-                                <button onclick="deleteUser('${user._id}')">Delete</button>
-                            </td>
-                        </tr>
-                    `;
+                          <tr>
+                              <td>${user.username}</td>
+                              <td>${user.email}</td>
+                              <td>${user.age}</td>
+                              <td>${user.gender}</td>
+                              <td>${user.address}</td>
+                              <td>${user.phoneNumber}</td>
+                              <td>${user.password}</td>
+                              <td>${user.md5Hash}</td>
+                              <td>
+                                  <button onclick="editUser('${user._id}')">Edit</button>
+                                  <button onclick="deleteUser('${user._id}')">Delete</button>
+                              </td>
+                          </tr>
+                      `;
             userTableBody.insertAdjacentHTML("beforeend", row);
           });
         } catch (error) {

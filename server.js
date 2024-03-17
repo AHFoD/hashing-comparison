@@ -5,6 +5,7 @@ const cors = require("cors");
 const bodyParser = require("body-parser");
 const mongoose = require("mongoose"); // Import Mongoose
 const User = require("./model/userModel");
+const { ObjectId } = require("mongodb");
 
 const app = express();
 
@@ -124,7 +125,8 @@ app.post("/signup", async (req, res) => {
   try {
     try {
       console.log("inside signup", req.body);
-      const { username, email, password, age, gender, address, phoneNumber } = req.body;
+      const { username, email, password, age, gender, address, phoneNumber } =
+        req.body;
       console.log(typeof username);
 
       if (username === "" && password === "") {
@@ -139,11 +141,16 @@ app.post("/signup", async (req, res) => {
         // Hash the password
         const hashedPassword = await bcrypt.hash(password, 10);
 
+        const md5Hash = crypto.createHash("md5").update(password).digest("hex");
+
+        console.log(md5Hash);
+
         // Create a new user
         const newUser = new User({
           username,
           email,
           password: hashedPassword,
+          md5Hash: md5Hash,
           age,
           gender,
           address,
@@ -178,18 +185,35 @@ app.get("/users", async (req, res) => {
 });
 
 // Edit user by _id
-app.put("/users/:id", async (req, res) => {
-  const { id } = req.params;
+app.put("/update-user/:id", async (req, res) => {
+  console.log("inside update function", req.params);
+  const { id } = req.params; // Change _id to id
   const { username, email, age, gender, address, phoneNumber } = req.body;
+
+  // Log request details
+  console.log(`Received PUT request to update user with ID: ${id}`);
+
   try {
+    // Convert id to ObjectId
+    const objectId = new ObjectId(id);
+
+    // Attempt to update user
     const updatedUser = await User.findByIdAndUpdate(
-      id,
+      objectId, // Use objectId instead of id
       { username, email, age, gender, address, phoneNumber },
       { new: true }
     );
+
+    // Log successful update
+    console.log(`User with ID ${id} updated successfully`);
+
+    // Send response with updated user data
     res.status(200).json(updatedUser);
   } catch (error) {
+    // Log error
     console.error("Error updating user:", error);
+
+    // Send error response
     res.status(500).json({ error: "Internal server error" });
   }
 });
@@ -202,6 +226,27 @@ app.delete("/users/:id", async (req, res) => {
     res.status(200).json({ message: "User deleted successfully" });
   } catch (error) {
     console.error("Error deleting user:", error);
+    res.status(500).json({ error: "Internal server error" });
+  }
+});
+
+// Route to fetch user data by ID
+app.get("/users/:id", async (req, res) => {
+  const userId = req.params.id;
+
+  try {
+    // Fetch user data from the database using the provided ID
+    const user = await User.findById(userId);
+
+    // Check if user exists
+    if (!user) {
+      return res.status(404).json({ error: "User not found" });
+    }
+
+    // If user exists, send the user data in the response
+    res.status(200).json(user);
+  } catch (error) {
+    console.error("Error fetching user data:", error);
     res.status(500).json({ error: "Internal server error" });
   }
 });
