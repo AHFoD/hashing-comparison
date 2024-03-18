@@ -66,3 +66,16 @@ button[type="submit"]:focus {
   font-size: 14px;
   margin-top: 5px;
 }
+
+/* Add the new styles here */
+.toaster {
+  position: fixed;
+  top: 20px;
+  left: 50%;
+  transform: translateX(-50%);
+  background-color: #4caf50;
+  color: #fff;
+  padding: 15px;
+  border-radius: 8px;
+  display: none;
+}
