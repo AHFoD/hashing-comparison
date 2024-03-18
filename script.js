@@ -24,8 +24,8 @@ async function fetchUsers() {
                         <td>${user.password}</td>
                         <td>${user.md5Hash}</td>
                         <td>
-                            <button onclick="editUser('${user._id}')">Edit</button>
-                            <button onclick="deleteUser('${user._id}')">Delete</button>
+                            <button class="edit" onclick="editUser('${user._id}')">Edit</button>
+                            <button class="delete" onclick="deleteUser('${user._id}')">Delete</button>
                         </td>
                     </tr>
                 `;
@@ -36,11 +36,9 @@ async function fetchUsers() {
   }
 }
 
-document
-  .getElementById("updateUserButton")
-  .addEventListener("click", function () {
-    editOrUpdateUser(); // Call the function from the script tag
-  });
+document.getElementById("updateUserButton").addEventListener("click", function () {
+  editOrUpdateUser(); // Call the function from the script tag
+});
 // Function to edit or update user
 async function editOrUpdateUser() {
   try {
@@ -144,14 +142,12 @@ async function editUser(userId) {
     document.getElementById("editPhoneNumber").value = userData.phoneNumber;
     document.getElementById("editPassword").value = userData.password;
     document.getElementById("editMd5Hash").value = userData.md5Hash;
-    document
-      .getElementById("updateUserButton")
-      .addEventListener("click", function (e) {
-        e.preventDefault(); // Prevent the default form submission behavior
-        updateUser(userId);
-      });
+    document.getElementById("updateUserButton").addEventListener("click", function (e) {
+      e.preventDefault(); // Prevent the default form submission behavior
+      updateUser(userId);
+    });
 
-    // // Show the modal for editing user data
+    // Show the modal for editing user data
     document.getElementById("editUserModal").style.display = "block";
   } catch (error) {
     console.error("Error editing user:", error);
@@ -186,16 +182,13 @@ async function updateUser(userId) {
     };
 
     // Send updated user data to the server
-    const response = await fetch(
-      `http://localhost:3000/update-user/${userId}`,
-      {
-        method: "PUT",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(updatedUser),
-      }
-    );
+    const response = await fetch(`http://localhost:3000/update-user/${userId}`, {
+      method: "PUT",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(updatedUser),
+    });
 
     // Check if user was successfully updated
     if (response.ok) {
@@ -204,9 +197,12 @@ async function updateUser(userId) {
       // Close the modal
       closeEditUserModal();
       // Optionally, you can clear the form inputs here
+
+      showToaster("User updated successfully!");
     } else {
       // Failed to update user
-      console.error("Failed to update user");
+      // console.error("Failed to update user");
+      showToaster("Failed to update user");
     }
   } catch (error) {
     console.error("Error updating user:", error);
@@ -244,4 +240,14 @@ async function deleteUser(userId) {
 
 function closeEditUserModal() {
   document.getElementById("editUserModal").style.display = "none";
+}
+
+// Function to display toaster notification
+function showToaster(message) {
+  const toaster = document.getElementById("toaster");
+  toaster.textContent = message;
+  toaster.style.display = "block";
+  setTimeout(() => {
+    toaster.style.display = "none";
+  }, 3000); // Hide after 3 seconds
 }
