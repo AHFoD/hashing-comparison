@@ -112,7 +112,7 @@ app.post("/login", async (req, res) => {
 app.post("/signup", async (req, res) => {
   try {
     console.log("inside signup", req.body);
-    const { username, email, password, age, gender, address, phoneNumber } = req.body;
+    const { username, email, password, age, gender, address, contactNumber } = req.body;
     console.log(typeof username);
 
     if (username === "" && password === "") {
@@ -140,7 +140,7 @@ app.post("/signup", async (req, res) => {
         age,
         gender,
         address,
-        phoneNumber,
+        phoneNumber: contactNumber,
       });
 
       // Save the user to the database
