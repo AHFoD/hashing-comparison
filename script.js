@@ -103,8 +103,17 @@ async function saveUser() {
       // Close the modal
       closeCreateUserForm();
       // Optionally, you can clear the form inputs here
+      // Clear the form inputs
+      document.getElementById("username").value = "";
+      document.getElementById("age").value = "";
+      document.getElementById("gender").value = "";
+      document.getElementById("address").value = "";
+      document.getElementById("phoneNumber").value = "";
+      document.getElementById("password").value = "";
     } else {
       // Failed to create user
+      showToaster("Failed to create user", "#f44336");
+
       console.error("Failed to create user");
     }
   } catch (error) {
@@ -198,11 +207,11 @@ async function updateUser(userId) {
       closeEditUserModal();
       // Optionally, you can clear the form inputs here
 
-      showToaster("User updated successfully!");
+      showToaster("User updated successfully!", "#4caf50");
     } else {
       // Failed to update user
       // console.error("Failed to update user");
-      showToaster("Failed to update user");
+      showToaster("Failed to update user", "#f44336");
     }
   } catch (error) {
     console.error("Error updating user:", error);
@@ -243,9 +252,10 @@ function closeEditUserModal() {
 }
 
 // Function to display toaster notification
-function showToaster(message) {
+function showToaster(message, color) {
   const toaster = document.getElementById("toaster");
   toaster.textContent = message;
+  toaster.style.backgroundColor = color; // Set background color dynamically
   toaster.style.display = "block";
   setTimeout(() => {
     toaster.style.display = "none";
