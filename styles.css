@@ -121,3 +121,23 @@ td:nth-child(7) {
   border-radius: 8px;
   display: none;
 }
+
+/* Styles for Update button */
+.updateButton {
+  background-color: #4caf50;
+  color: white;
+}
+
+.updateButton:hover {
+  background-color: #45a049;
+}
+
+/* Styles for Cancel button */
+.cancelButton {
+  background-color: #f44336;
+  color: white;
+}
+
+.cancelButton:hover {
+  background-color: #d32f2f;
+}

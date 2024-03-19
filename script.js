@@ -35,11 +35,9 @@ async function fetchUsers() {
   }
 }
 
-document
-  .getElementById("updateUserButton")
-  .addEventListener("click", function () {
-    editOrUpdateUser(); // Call the function from the script tag
-  });
+document.getElementById("updateUserButton").addEventListener("click", function () {
+  editOrUpdateUser(); // Call the function from the script tag
+});
 // Function to edit or update user
 async function editOrUpdateUser() {
   try {
@@ -148,12 +146,10 @@ async function editUser(userId) {
     document.getElementById("editPhoneNumber").value = userData.phoneNumber;
     document.getElementById("editPassword").value = userData.password;
     document.getElementById("editMd5Hash").value = userData.md5Hash;
-    document
-      .getElementById("updateUserButton")
-      .addEventListener("click", function (e) {
-        e.preventDefault(); // Prevent the default form submission behavior
-        updateUser(userId);
-      });
+    document.getElementById("updateUserButton").addEventListener("click", function (e) {
+      e.preventDefault(); // Prevent the default form submission behavior
+      updateUser(userId);
+    });
 
     // Show the modal for editing user data
     document.getElementById("editUserModal").style.display = "block";
@@ -188,16 +184,13 @@ async function updateUser(userId) {
     };
 
     // Send updated user data to the server
-    const response = await fetch(
-      `http://localhost:3000/update-user/${userId}`,
-      {
-        method: "PUT",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(updatedUser),
-      }
-    );
+    const response = await fetch(`http://localhost:3000/update-user/${userId}`, {
+      method: "PUT",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(updatedUser),
+    });
 
     // Check if user was successfully updated
     if (response.ok) {
@@ -206,6 +199,13 @@ async function updateUser(userId) {
       // Close the modal
       closeEditUserModal();
       // Optionally, you can clear the form inputs here
+      document.getElementById("editUsername").value = "";
+      document.getElementById("editAge").value = "";
+      document.getElementById("editGender").value = "";
+      document.getElementById("editAddress").value = "";
+      document.getElementById("editPhoneNumber").value = "";
+      document.getElementById("editPassword").value = "";
+      document.getElementById("editMd5Hash").value = "";
 
       showToaster("User updated successfully!", "#4caf50");
     } else {

@@ -13,10 +13,9 @@ app.use(bodyParser.json());
 // Use the cors middleware
 app.use(cors());
 
-// const uri =
-//   "mongodb+srv://admin:l8D3WybQPVzrHGWh@cluster0.cnvjaaz.mongodb.net/playground";
+const uri = "mongodb+srv://admin:uIOEboqF9naIDdrz@cluster0.cnvjaaz.mongodb.net/playground";
 
-const uri = "mongodb://docker:mongopw@localhost:27017/";
+// const uri = "mongodb://docker:mongopw@localhost:27017/";
 // Connect to MongoDB
 mongoose
   .connect(uri)
@@ -113,8 +112,7 @@ app.post("/login", async (req, res) => {
 app.post("/signup", async (req, res) => {
   try {
     console.log("inside signup", req.body);
-    const { username, email, password, age, gender, address, phoneNumber } =
-      req.body;
+    const { username, email, password, age, gender, address, phoneNumber } = req.body;
     console.log(typeof username);
 
     if (username === "" && password === "") {

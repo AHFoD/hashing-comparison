@@ -40,9 +40,7 @@
           <input type="text" id="address" placeholder="Address" />
           <input type="text" id="phoneNumber" placeholder="Phone Number" />
           <button type="button" onclick="saveUser()">Save</button>
-          <button type="button" class="cancel" onclick="closeCreateUserForm()">
-            Cancel
-          </button>
+          <button type="button" class="cancel" onclick="closeCreateUserForm()">Cancel</button>
           <!-- New cancel button -->
         </form>
       </div>
@@ -55,19 +53,14 @@
           <input type="text" id="editUserId" style="display: none" />
           <!-- Add an input field to store userId -->
           <input type="text" id="editUsername" placeholder="Username" />
-          <input
-            type="text"
-            id="editPassword"
-            placeholder="Password"
-            disabled
-          />
+          <input type="text" id="editPassword" placeholder="Password" disabled />
           <input type="number" id="editAge" placeholder="Age" />
           <input type="text" id="editGender" placeholder="Gender" />
           <input type="text" id="editAddress" placeholder="Address" />
           <input type="text" id="editPhoneNumber" placeholder="Phone Number" />
           <input type="text" id="editMd5Hash" placeholder="MD5Hash" disabled />
-          <button type="button" id="updateUserButton">Update</button>
-          <button type="button" onclick="closeEditUserModal()">Cancel</button>
+          <button type="button" id="updateUserButton" class="updateButton">Update</button>
+          <button type="button" onclick="closeEditUserModal()" class="cancelButton">Cancel</button>
         </form>
       </div>
     </div>
