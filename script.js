@@ -199,13 +199,6 @@ async function updateUser(userId) {
       // Close the modal
       closeEditUserModal();
       // Optionally, you can clear the form inputs here
-      document.getElementById("editUsername").value = "";
-      document.getElementById("editAge").value = "";
-      document.getElementById("editGender").value = "";
-      document.getElementById("editAddress").value = "";
-      document.getElementById("editPhoneNumber").value = "";
-      document.getElementById("editPassword").value = "";
-      document.getElementById("editMd5Hash").value = "";
 
       showToaster("User updated successfully!", "#4caf50");
     } else {
