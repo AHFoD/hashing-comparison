@@ -168,23 +168,37 @@ app.get("/users", async (req, res) => {
 
 // Edit user by _id
 app.put("/update-user/:id", async (req, res) => {
-  console.log("inside update function", req.params);
-  const { id } = req.params; // Change _id to id
-  const { username, email, age, gender, address, phoneNumber } = req.body;
+  // Extract the id parameter from the request URL
+  const { id } = req.params;
 
   // Log request details
   console.log(`Received PUT request to update user with ID: ${id}`);
 
   try {
-    // Convert id to ObjectId
+    // Check if the id parameter is a valid ObjectId
+    if (!ObjectId.isValid(id)) {
+      // If the id is not valid, send a bad request response
+      return res.status(400).json({ error: "Invalid user ID" });
+    }
+
+    // Convert the id parameter to an ObjectId
     const objectId = new ObjectId(id);
 
-    // Attempt to update user
+    // Destructure user data from the request body
+    const { username, email, age, gender, address, phoneNumber } = req.body;
+
+    // Attempt to update the user with the specified ID
     const updatedUser = await User.findByIdAndUpdate(
-      objectId, // Use objectId instead of id
+      objectId,
       { username, email, age, gender, address, phoneNumber },
       { new: true }
     );
+
+    // Check if a user was found and updated
+    if (!updatedUser) {
+      // If no user was found with the specified ID, send a not found response
+      return res.status(404).json({ error: "User not found" });
+    }
 
     // Log successful update
     console.log(`User with ID ${id} updated successfully`);

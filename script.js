@@ -72,7 +72,7 @@ async function saveUser() {
     const age = document.getElementById("age").value;
     const gender = document.getElementById("gender").value;
     const address = document.getElementById("address").value;
-    const contactNumber = document.getElementById("phoneNumber").value;
+    const phoneNumber = document.getElementById("phoneNumber").value;
     const password = document.getElementById("password").value;
 
     // Create user object
@@ -82,7 +82,7 @@ async function saveUser() {
       age,
       gender,
       address,
-      contactNumber,
+      phoneNumber,
     };
 
     // Send user data to the server

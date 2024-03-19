@@ -16,7 +16,7 @@ async function validateForm() {
   const age = document.getElementById("age").value;
   const gender = document.getElementById("gender").value;
   const address = document.getElementById("address").value;
-  const contactNumber = document.getElementById("contactNumber").value;
+  const phoneNumber = document.getElementById("phoneNumber").value;
 
   const response = await fetch("http://localhost:3000/signup", {
     method: "POST",
@@ -29,7 +29,7 @@ async function validateForm() {
       age,
       gender,
       address,
-      contactNumber,
+      phoneNumber,
     }),
   });
 
