@@ -13,24 +13,13 @@ app.use(bodyParser.json());
 // Use the cors middleware
 app.use(cors());
 
-// mongoose.connect(
-//   "mongodb+srv://admin:l8D3WybQPVzrHGWh@cluster0.wisipyd.mongodb.net/?retryWrites=true&w=majority",
-//   {
-//     useNewUrlParser: true,
-//     useUnifiedTopology: true,
-//   }
-// );
+// const uri =
+//   "mongodb+srv://admin:l8D3WybQPVzrHGWh@cluster0.cnvjaaz.mongodb.net/playground";
+
 const uri = "mongodb://docker:mongopw@localhost:27017/";
-
-const options = {
-  // useNewUrlParser: true,
-  // useUnifiedTopology: true,
-  // useCreateIndex: true,
-};
-
 // Connect to MongoDB
 mongoose
-  .connect(uri, options)
+  .connect(uri)
   .then(() => {
     console.log("Connected to MongoDB");
   })
@@ -123,50 +112,45 @@ app.post("/login", async (req, res) => {
 
 app.post("/signup", async (req, res) => {
   try {
-    try {
-      console.log("inside signup", req.body);
-      const { username, email, password, age, gender, address, phoneNumber } =
-        req.body;
-      console.log(typeof username);
+    console.log("inside signup", req.body);
+    const { username, email, password, age, gender, address, phoneNumber } =
+      req.body;
+    console.log(typeof username);
 
-      if (username === "" && password === "") {
-        console.log("error creating user");
-      } else {
-        // Check if the username already exists
-        const existingUser = await User.findOne({ username });
-        if (existingUser) {
-          return res.status(400).json({ error: "Username already exists" });
-        }
-
-        // Hash the password
-        const hashedPassword = await bcrypt.hash(password, 10);
-
-        const md5Hash = crypto.createHash("md5").update(password).digest("hex");
-
-        console.log(md5Hash);
-
-        // Create a new user
-        const newUser = new User({
-          username,
-          email,
-          password: hashedPassword,
-          md5Hash: md5Hash,
-          age,
-          gender,
-          address,
-          phoneNumber,
-        });
-
-        // Save the user to the database
-        const result = await newUser.save();
-
-        console.log(result);
-
-        res.status(201).json({ message: "User registered successfully!" });
+    if (username === "" && password === "") {
+      console.log("error creating user");
+    } else {
+      // Check if the username already exists
+      const existingUser = await User.findOne({ username });
+      if (existingUser) {
+        return res.status(400).json({ error: "Username already exists" });
       }
-    } catch (error) {
-      console.error("Error during signup:", error);
-      res.status(500).json({ error: "Internal server error" });
+
+      // Hash the password
+      const hashedPassword = await bcrypt.hash(password, 10);
+
+      const md5Hash = crypto.createHash("md5").update(password).digest("hex");
+
+      console.log(md5Hash);
+
+      // Create a new user
+      const newUser = new User({
+        username,
+        email,
+        password: hashedPassword,
+        md5Hash: md5Hash,
+        age,
+        gender,
+        address,
+        phoneNumber,
+      });
+
+      // Save the user to the database
+      const result = await newUser.save();
+
+      console.log(result);
+
+      res.status(201).json({ message: "User registered successfully!" });
     }
   } catch (error) {
     console.error("Error during signup:", error);

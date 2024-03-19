@@ -16,7 +16,6 @@ async function fetchUsers() {
       const row = `
                     <tr>
                         <td>${user.username}</td>
-                        <td>${user.email}</td>
                         <td>${user.age}</td>
                         <td>${user.gender}</td>
                         <td>${user.address}</td>
@@ -36,9 +35,11 @@ async function fetchUsers() {
   }
 }
 
-document.getElementById("updateUserButton").addEventListener("click", function () {
-  editOrUpdateUser(); // Call the function from the script tag
-});
+document
+  .getElementById("updateUserButton")
+  .addEventListener("click", function () {
+    editOrUpdateUser(); // Call the function from the script tag
+  });
 // Function to edit or update user
 async function editOrUpdateUser() {
   try {
@@ -51,7 +52,6 @@ async function editOrUpdateUser() {
     console.log({ testId });
     // Populate form fields with user data for editing
     document.getElementById("editUsername").value = userData.username;
-    document.getElementById("editEmail").value = userData.email;
     document.getElementById("editAge").value = userData.age;
     document.getElementById("editGender").value = userData.gender;
     document.getElementById("editAddress").value = userData.address;
@@ -71,7 +71,6 @@ async function saveUser() {
   try {
     // Get form input values
     const username = document.getElementById("username").value;
-    const email = document.getElementById("email").value;
     const age = document.getElementById("age").value;
     const gender = document.getElementById("gender").value;
     const address = document.getElementById("address").value;
@@ -81,7 +80,6 @@ async function saveUser() {
     // Create user object
     const newUser = {
       username,
-      email,
       password,
       age,
       gender,
@@ -135,17 +133,18 @@ async function editUser(userId) {
 
     // Populate form fields with user data for editing
     document.getElementById("editUsername").value = userData.username;
-    document.getElementById("editEmail").value = userData.email;
     document.getElementById("editAge").value = userData.age;
     document.getElementById("editGender").value = userData.gender;
     document.getElementById("editAddress").value = userData.address;
     document.getElementById("editPhoneNumber").value = userData.phoneNumber;
     document.getElementById("editPassword").value = userData.password;
     document.getElementById("editMd5Hash").value = userData.md5Hash;
-    document.getElementById("updateUserButton").addEventListener("click", function (e) {
-      e.preventDefault(); // Prevent the default form submission behavior
-      updateUser(userId);
-    });
+    document
+      .getElementById("updateUserButton")
+      .addEventListener("click", function (e) {
+        e.preventDefault(); // Prevent the default form submission behavior
+        updateUser(userId);
+      });
 
     // Show the modal for editing user data
     document.getElementById("editUserModal").style.display = "block";
@@ -161,7 +160,6 @@ async function updateUser(userId) {
     console.log({ userId });
     // Get form input values
     const username = document.getElementById("editUsername").value;
-    const email = document.getElementById("editEmail").value;
     const age = document.getElementById("editAge").value;
     const gender = document.getElementById("editGender").value;
     const address = document.getElementById("editAddress").value;
@@ -172,7 +170,6 @@ async function updateUser(userId) {
     // Create user object with updated data
     const updatedUser = {
       username,
-      email,
       age,
       gender,
       address,
@@ -182,13 +179,16 @@ async function updateUser(userId) {
     };
 
     // Send updated user data to the server
-    const response = await fetch(`http://localhost:3000/update-user/${userId}`, {
-      method: "PUT",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(updatedUser),
-    });
+    const response = await fetch(
+      `http://localhost:3000/update-user/${userId}`,
+      {
+        method: "PUT",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(updatedUser),
+      }
+    );
 
     // Check if user was successfully updated
     if (response.ok) {

@@ -1,12 +1,14 @@
 var form = document.getElementById("signupForm");
 
 // Attach an event listener to the form's submit event
-form.addEventListener("submit", function (event) {
+form.addEventListener("submit", handleSubmit);
+
+function handleSubmit(event) {
   event.preventDefault(); // Prevent the default form submission
 
   // Call the validateForm function
   validateForm();
-});
+}
 
 async function validateForm() {
   const username = document.getElementById("username").value;
@@ -21,7 +23,14 @@ async function validateForm() {
     headers: {
       "Content-Type": "application/json",
     },
-    body: JSON.stringify({ username, password, age, gender, address, contactNumber }),
+    body: JSON.stringify({
+      username,
+      password,
+      age,
+      gender,
+      address,
+      contactNumber,
+    }),
   });
 
   if (response.ok) {

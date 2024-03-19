@@ -95,8 +95,8 @@ input[type="password"] {
   border-radius: 4px;
 }
 
-th:nth-child(8),
-td:nth-child(8) {
+th:nth-child(6),
+td:nth-child(6) {
   max-width: 150px; /* Adjust the width as needed */
   overflow: hidden;
   text-overflow: ellipsis;
