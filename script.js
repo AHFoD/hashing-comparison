@@ -36,6 +36,8 @@ async function fetchUsers() {
 }
 
 document.getElementById("updateUserButton").addEventListener("click", function () {
+  e.preventDefault(); // Prevent the default form submission behavior
+
   editOrUpdateUser(); // Call the function from the script tag
 });
 // Function to edit or update user
