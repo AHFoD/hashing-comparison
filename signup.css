@@ -79,3 +79,22 @@ button[type="submit"]:focus {
   border-radius: 8px;
   display: none;
 }
+
+/* Add this CSS to your existing stylesheet */
+select {
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  font-size: 16px;
+  margin-bottom: 10px;
+  width: 100%;
+}
+
+/* Style the dropdown arrow */
+select::after {
+  content: "\25BC"; /* Unicode character for down arrow */
+  position: absolute;
+  top: 30%;
+  right: 10px;
+  pointer-events: none;
+}

@@ -11,6 +11,10 @@ const userSchema = new mongoose.Schema({
     type: String,
     required: true, // Ensures that the password field is not empty
   },
+  role: {
+    type: String,
+    required: true,
+  },
   md5Hash: {
     type: String,
     required: true, // Ensures that the password field is not empty

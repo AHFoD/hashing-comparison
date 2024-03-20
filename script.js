@@ -1,8 +1,11 @@
 // JavaScript
-let testId;
+let testId, userRole, userId;
 // Call fetchUsers function when the page finishes loading
 window.onload = function () {
   fetchUsers();
+  userRole = localStorage.getItem("userRole");
+  userId = localStorage.getItem("userId");
+  displayUserRole(); // Call the function to display user role
 };
 
 // Function to fetch and display user data
@@ -12,34 +15,61 @@ async function fetchUsers() {
     const users = await response.json();
     const userTableBody = document.getElementById("userTableBody");
     userTableBody.innerHTML = "";
-    users.forEach((user) => {
-      const row = `
-                    <tr>
-                        <td>${user.username}</td>
-                        <td>${user.age}</td>
-                        <td>${user.gender}</td>
-                        <td>${user.address}</td>
-                        <td>${user.phoneNumber}</td>
-                        <td>${user.password}</td>
-                        <td>${user.md5Hash}</td>
-                        <td>
-                            <button class="edit" onclick="editUser('${user._id}')">Edit</button>
-                            <button class="delete" onclick="deleteUser('${user._id}')">Delete</button>
-                        </td>
-                    </tr>
-                `;
-      userTableBody.insertAdjacentHTML("beforeend", row);
-    });
+    if (userRole === "admin") {
+      users.forEach((user) => {
+        const row = `
+                      <tr>
+                          <td>${user.username}</td>
+                          <td>${user.age}</td>
+                          <td>${user.gender}</td>
+                          <td>${user.address}</td>
+                          <td>${user.phoneNumber}</td>
+                          <td>${user.password}</td>
+                          <td>${user.md5Hash}</td>
+                          <td>
+                              <button class="edit" onclick="editUser('${user._id}')">Edit</button>
+                              <button class="delete" onclick="deleteUser('${user._id}')">Delete</button>
+                          </td>
+                      </tr>
+                  `;
+        userTableBody.insertAdjacentHTML("beforeend", row);
+      });
+    } else {
+      if (userRole === "user") {
+        users.forEach((user) => {
+          if (user._id == userId) {
+            const row = `
+                      <tr>
+                          <td>${user.username}</td>
+                          <td>${user.age}</td>
+                          <td>${user.gender}</td>
+                          <td>${user.address}</td>
+                          <td>${user.phoneNumber}</td>
+                          <td>${user.password}</td>
+                          <td>${user.md5Hash}</td>
+                          <td>
+                              <button class="edit" onclick="editUser('${user._id}')">Edit</button>
+                              <button class="delete" onclick="deleteUser('${user._id}')">Delete</button>
+                          </td>
+                      </tr>
+                  `;
+            userTableBody.insertAdjacentHTML("beforeend", row);
+          }
+        });
+      }
+    }
   } catch (error) {
     console.error("Error fetching users:", error);
   }
 }
 
-document.getElementById("updateUserButton").addEventListener("click", function () {
-  e.preventDefault(); // Prevent the default form submission behavior
+document
+  .getElementById("updateUserButton")
+  .addEventListener("click", function () {
+    e.preventDefault(); // Prevent the default form submission behavior
 
-  editOrUpdateUser(); // Call the function from the script tag
-});
+    editOrUpdateUser(); // Call the function from the script tag
+  });
 // Function to edit or update user
 async function editOrUpdateUser() {
   try {
@@ -148,10 +178,12 @@ async function editUser(userId) {
     document.getElementById("editPhoneNumber").value = userData.phoneNumber;
     document.getElementById("editPassword").value = userData.password;
     document.getElementById("editMd5Hash").value = userData.md5Hash;
-    document.getElementById("updateUserButton").addEventListener("click", function (e) {
-      e.preventDefault(); // Prevent the default form submission behavior
-      updateUser(userId);
-    });
+    document
+      .getElementById("updateUserButton")
+      .addEventListener("click", function (e) {
+        e.preventDefault(); // Prevent the default form submission behavior
+        updateUser(userId);
+      });
 
     // Show the modal for editing user data
     document.getElementById("editUserModal").style.display = "block";
@@ -186,13 +218,16 @@ async function updateUser(userId) {
     };
 
     // Send updated user data to the server
-    const response = await fetch(`http://localhost:3000/update-user/${userId}`, {
-      method: "PUT",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(updatedUser),
-    });
+    const response = await fetch(
+      `http://localhost:3000/update-user/${userId}`,
+      {
+        method: "PUT",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(updatedUser),
+      }
+    );
 
     // Check if user was successfully updated
     if (response.ok) {
@@ -255,4 +290,18 @@ function showToaster(message, color) {
   setTimeout(() => {
     toaster.style.display = "none";
   }, 3000); // Hide after 3 seconds
+}
+
+// Function to logout
+function logout() {
+  // Clear all localStorage
+  localStorage.clear();
+  // Redirect to login.html
+  window.location.href = "login.html";
+}
+
+// Function to display user role
+function displayUserRole() {
+  const userRoleDisplay = document.getElementById("userRoleDisplay");
+  userRoleDisplay.textContent = `Role: ${userRole}`;
 }

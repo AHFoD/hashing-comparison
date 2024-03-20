@@ -13,8 +13,9 @@ app.use(bodyParser.json());
 // Use the cors middleware
 app.use(cors());
 
-const uri = "mongodb+srv://admin:uIOEboqF9naIDdrz@cluster0.cnvjaaz.mongodb.net/playground";
-
+const uri =
+  "mongodb+srv://admin:uIOEboqF9naIDdrz@cluster0.cnvjaaz.mongodb.net/playground";
+//** テストの目的で 😊 */
 // const uri = "mongodb://docker:mongopw@localhost:27017/";
 // Connect to MongoDB
 mongoose
@@ -53,28 +54,6 @@ app.post("/hash-password", (req, res) => {
   }
 });
 
-// app.post("/login", (req, res) => {
-//   try {
-//     console.log("user-login?");
-//     console.log(req?.body?.password);
-//     const { password, username, id, gender, dob } = req.body;
-
-//     // MD5 hashing
-//     const md5Hash = crypto.createHash("md5").update(password).digest("hex");
-
-//     // Bcrypt hashing
-//     bcrypt.hash(password, 10, (err, bcryptHash) => {
-//       if (err) {
-//         return res.status(500).send("Error hashing password");
-//       }
-
-//       res.json({ md5Hash, bcryptHash });
-//     });
-//   } catch (error) {
-//     console.log(error);
-//   }
-// });
-
 app.post("/login", async (req, res) => {
   try {
     const { username, password } = req.body;
@@ -112,7 +91,16 @@ app.post("/login", async (req, res) => {
 app.post("/signup", async (req, res) => {
   try {
     console.log("inside signup", req.body);
-    const { username, email, password, age, gender, address, phoneNumber } = req.body;
+    const {
+      username,
+      email,
+      role,
+      password,
+      age,
+      gender,
+      address,
+      phoneNumber,
+    } = req.body;
     console.log(typeof username);
 
     if (username === "" && password === "") {
@@ -136,6 +124,7 @@ app.post("/signup", async (req, res) => {
         username,
         email,
         password: hashedPassword,
+        role,
         md5Hash: md5Hash,
         age,
         gender,

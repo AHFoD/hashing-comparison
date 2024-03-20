@@ -13,6 +13,7 @@ function handleSubmit(event) {
 async function validateForm() {
   const username = document.getElementById("username").value;
   const password = document.getElementById("password").value;
+  const role = document.getElementById("role").value;
   const age = document.getElementById("age").value;
   const gender = document.getElementById("gender").value;
   const address = document.getElementById("address").value;
@@ -26,6 +27,7 @@ async function validateForm() {
     body: JSON.stringify({
       username,
       password,
+      role,
       age,
       gender,
       address,
